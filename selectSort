@@ -1,0 +1,44 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <chrono>
+using namespace std;
+static int swapCount = 1;
+static int sravCount = 1;
+
+bool foo() {
+    ::sravCount++;
+    return true;
+}
+template<class T>
+void selectSort(T a[], long size) {
+  long i, j, k;
+  T x;
+
+  for( i=0; i < size; i++) {   	
+    k=i; x=a[i];
+
+    for( j=i+1; j < size; j++)
+      if ((a[j] < x) && foo()) {
+        k=j; x=a[j];	       
+      }
+
+    a[k] = a[i]; a[i] = x; swapCount++;  	
+  }
+}
+
+int main()
+{
+    int a[10];
+    for (int i = 0; i < 10; i++)
+        cin>>a[i];
+    std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+       start = std::chrono::high_resolution_clock::now();
+    selectSort(a, 10);
+     end = std::chrono::high_resolution_clock::now();
+     int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
+                                 (end-start).count();
+    for (int i = 0; i < 10; i++)
+        cout << a[i] << " ";
+    cout<<swapCount<<" "<<sravCount<<" "<<elapsed_seconds;
+}
